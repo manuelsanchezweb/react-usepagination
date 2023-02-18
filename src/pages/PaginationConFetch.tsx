@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { fetchCharacters } from "../api/fetchCharacters";
 import usePagination from "../hooks/usePagination";
 
 const PaginationConFetch = () => {
@@ -13,8 +14,7 @@ const PaginationConFetch = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("data.json");
-      const data = await response.json();
+      const data = await fetchCharacters();
       setElementsArray(data);
     };
     fetchData();
@@ -32,11 +32,21 @@ const PaginationConFetch = () => {
 
   return (
     <>
-      <div className="elements">
-        {elementsToDisplay.map((element: any, index: any) => (
-          <div key={index}>{element}</div>
+      <ul>
+        {elementsToDisplay.map((user: any, index: number) => (
+          <li key={index}>
+            <figure>
+              <img
+                src={user.image}
+                alt={`${user.firstName} ${user.lastName}`}
+              />
+              <figcaption>
+                {user.firstName} {user.lastName}
+              </figcaption>
+            </figure>
+          </li>
         ))}
-      </div>
+      </ul>
       {/* Pagination  */}
       <div className="pagination">
         <div className="pagination__buttons">
